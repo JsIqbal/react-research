@@ -8,8 +8,8 @@ export function Home () {
     useEffect(() => {
         async function getUsers () {
             try {
-                const data = await axios.get("https://fakedata69.herokuapp.com/data");
-
+                const {data} = await axios.get("https://fakedata69.herokuapp.com/data");
+                console.log(data);
                 setUsers(data);
             }
             catch(err) {
@@ -19,25 +19,31 @@ export function Home () {
         }
         getUsers();
     }, []);
-
-    console.log(users.data);
     return(
         <>
             <h1>This are fake-data:</h1>
 
-            <table>
-                <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>username</th>
-                </tr>
-                <tr>
+            <table className="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">username</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {
-                        users.data.map((item) => {
-                            return <td>{item.id}</td>
+                        users.map((user, index) => {
+                            return (
+                                <tr key={user.id}>
+                                    <td scope="row">{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.username}</td>
+                                </tr>
+                            );
                         })
                     }
-                </tr>
+                </tbody>
             </table>
         </>
     );
